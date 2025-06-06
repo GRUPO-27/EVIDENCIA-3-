@@ -3,12 +3,15 @@ def iniciar_sesion():
     contrasena_input = input("Ingrese su contraseña: ")
 
     try:
-        with open("usuarios.txt", "r") as archivo:
+        with open("usuarios.txt", "r", encoding="utf-8") as archivo:
             for linea in archivo:
-                nombre, usuario, contrasena, rol = linea.strip().split(";")
+                partes = linea.strip().split(";")
+                if len(partes) != 4:
+                    continue  # ( Saltar líneas mal formateadas )
+                nombre, usuario, contrasena, rol = partes
                 if usuario_input == usuario and contrasena_input == contrasena:
                     print(f"Inicio de sesión exitoso. Bienvenido {nombre} ({rol})")
-                    return Usuario(nombre, usuario, contrasena, rol)
+                    return {"nombre": nombre, "usuario": usuario, "contrasena": contrasena, "rol": rol}
             print("Usuario o contraseña incorrectos.")
     except FileNotFoundError:
         print("No hay usuario registrado")

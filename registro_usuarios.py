@@ -10,14 +10,20 @@ def registrar_usuario():
     nombre = input("Ingrese su nombre completo: ")
     usuario = input("Ingrese un nombre de usuario: ")
     
+    usuario_existente = False
     try:
         with open("usuarios.txt", "r") as archivo:
             for linea in archivo:
-                if usuario in linea:
-                    print("Este usuario ya está registrado. Pruebe con otro")
-                    return
+                partes = linea.strip().split(";")
+                if len(partes) > 1 and usuario == partes[1]:
+                    usuario_existente = True
+                    break
     except FileNotFoundError:
         pass
+
+    if usuario_existente:
+        print("Este usuario ya está registrado. Pruebe con otro")
+        return
     
     while True:
         contrasena = input("Ingrese una contraseña (mínimo 6 caracteres con letras y números): ")
@@ -38,7 +44,7 @@ def registrar_usuario():
     try:
         with open("usuarios.txt", "r") as archivo:
             contenido = archivo.read()
-            rol = "admin" if contenido == "" else "usuario"
+            rol = "admin" if contenido.strip() == "" else "usuario"
     except FileNotFoundError:
         rol = "admin"
     
