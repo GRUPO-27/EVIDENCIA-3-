@@ -7,7 +7,7 @@ def iniciar_sesion():
             for linea in archivo:
                 partes = linea.strip().split(";")
                 if len(partes) != 4:
-                    continue  # ( Saltar líneas mal formateadas )
+                    continue  
                 nombre, usuario, contrasena, rol = partes
                 if usuario_input == usuario and contrasena_input == contrasena:
                     print(f"Inicio de sesión exitoso. Bienvenido {nombre} ({rol})")
